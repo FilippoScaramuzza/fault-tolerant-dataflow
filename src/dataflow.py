@@ -32,6 +32,8 @@ def main():
 
     partitions = 0
     operations = []
+
+    input_ds_per_partition = []
     input_ds = []
 
     counts = []
@@ -45,17 +47,28 @@ def main():
 
         input_file = open("input/" + config["input"], 'r')
         row_count = 0
+
+        input_ds_per_partition = [[] for i in range(partitions)]
+
         for row in csv.reader(input_file):
             row_count = row_count + 1
-            input_ds.append([int(row[0]), int(row[1])])
+            key = int(row[0]) % partitions
+            input_ds_per_partition[key].append([int(row[0]), int(row[1])])
         
+        input_file.close()
+
+        input_ds = [item for sublist in input_ds_per_partition for item in sublist]
+
         counts = [0]
         displacements = [0]
 
         for i in range(partitions):
-            counts.append(int(row_count / partitions))
-            displacements.append(int(row_count / partitions) * i)
-        counts[len(counts) - 1] += row_count % partitions
+            counts.append(len(input_ds_per_partition[i]))
+            displacements.append(displacements[i] + counts[i])
+
+        print("Counts: ", counts)
+        print("Displacements: ", displacements)
+ 
         counts = [x * 2 for x in counts]
         displacements = [x * 2 for x in displacements]
 
@@ -78,7 +91,6 @@ def main():
     operations = comm.bcast(operations, root=0)
 
     dump = {
-        "operations": operations,
         "values": recv_buf
     }
 
@@ -99,6 +111,7 @@ def main():
             if index == -1:
                 if fault_tolerance:
                     comm.send(indexes[source - 1], source)
+                    comm.send(operations, source)
                 else:
                     comm.send(0, source)
                     comm.send(operations, source)
@@ -133,7 +146,10 @@ def main():
                 if fault_tolerance:
                     file = json.load(open(f'dumps/rank_{rank}_dump.json'))
                     recv_buf = file["values"]
-                    operations = file["operations"]
+                    operations = comm.recv(source=0)
+
+                    print("Received operations: ", operations)
+
                 else:
                     operations = comm.recv(source=0)
                     recv_buf = comm.recv(source=0)
@@ -175,8 +191,7 @@ def main():
     recv_buf = recv_buf.reshape(-1, 2).tolist()
 
     if rank == 0:
-        #print(f"Final result: {recv_buf}\nElapsed time {MPI.Wtime()}")
-        print("Elapsed time ", MPI.Wtime())
+        print(f"Elapsed time {MPI.Wtime()}")
 
 if __name__ == "__main__":
     main()
