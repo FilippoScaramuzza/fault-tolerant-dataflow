@@ -1,5 +1,5 @@
 {
-    "partitions": 8,
+    "partitions": 1,
     "input": "input.csv",
     "operations": [
         {

@@ -66,8 +66,8 @@ def main():
             counts.append(len(input_ds_per_partition[i]))
             displacements.append(displacements[i] + counts[i])
 
-        print("Counts: ", counts)
-        print("Displacements: ", displacements)
+        # print("Counts: ", counts)
+        # print("Displacements: ", displacements)
  
         counts = [x * 2 for x in counts]
         displacements = [x * 2 for x in displacements]
@@ -191,6 +191,7 @@ def main():
     recv_buf = recv_buf.reshape(-1, 2).tolist()
 
     if rank == 0:
+        print("Result: ", recv_buf)
         print(f"Elapsed time {MPI.Wtime()}")
 
 if __name__ == "__main__":
