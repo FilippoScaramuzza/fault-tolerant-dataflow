@@ -1,0 +1,42 @@
+<h1 id="fault-tolerant-dataflow-platform">Fault-Tolerant Dataflow
+Platform</h1>
+<p>Fault-tolerant dataflow platform implementation for the distributed
+systems course of the Polytechnic of Milan.</p>
+<h2 id="project-description">Project Description</h2>
+<p>The platform is implemented for processing key-value pairs where keys
+and values are integers. The platform offers three operators, which are
+executed independently and in parallel for each key <code>k</code>: -
+<code>map(f: int -&gt; int)</code>: for each input tuple
+<code>&lt;k, v&gt;</code>, it outputs a tuple
+<code>&lt;k, f(v)&gt;</code> - <code>changeKey(f: int -&gt; int)</code>:
+for each input tuple <code>&lt;k, v&gt;</code>, it outputs a tuple
+<code>&lt;f(v), v&gt;</code> -
+<code>reduce(f: list&lt;int&gt; -&gt; int)</code>: takes in input the
+list <code>V</code> of all values for key <code>k</code>, and outputs
+<code>&lt;k, f(V)&gt;</code></p>
+<p>The platform includes a <strong>coordinator</strong> and multiple
+<strong>workers</strong>. The coordinator accepts <strong>dataflow
+programs</strong> specified as an arbitrarily long sequence of the above
+operators. Programs are defined in a JSON file provided as input. Each
+operator is executed in parallel over multiple partitions of the input
+data, where the number of partitions is specified as part of the
+dataflow program. The coordinator splits the input data among processes
+and sends the operations set. Input data is split among processes based
+on the key. Thanks to this approach key-value pairs with the same key
+are located into the same process.</p>
+<p>The systems implements a fault-tolerance mechanism that limit the
+amount of work that needs to be be re-executed in the case a worker
+fails. This is achieved by saving a dump file containing the partial
+results computed until the failure. The coordinator keeps track of the
+operations computed by each worker and then tells it the point in the
+operations set it executed.</p>
+<p>The project uses <a href="https://www.open-mpi.org">Open MPI</a> and
+<a href="https://mpi4py.readthedocs.io/en/stable/">mpi4py</a> as
+middleware for distributed computing.</p>
+<h2 id="setup-guide">Setup Guide</h2>
+<p>Conda setup</p>
+<h2 id="how-to-run">How to Run</h2>
+<p>Run instruction</p>
+<h2 id="run-in-distributed-environment">Run in distributed
+environment</h2>
+<p>Setup ssh connection</p>

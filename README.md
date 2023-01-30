@@ -1,7 +1,7 @@
-# Fault-Tolerant Dataflow Platform
+# Fault-Tolerant Dataflow Platform
 Fault-tolerant dataflow platform implementation for the distributed systems course of the Polytechnic of Milan.
 
-## Project Description
+## Project Description
 The platform is implemented for processing key-value pairs where keys and values are integers. The platform offers three operators, which are executed independently and in parallel for each key `k`:
 - `map(f: int -> int)`: for each input tuple `<k, v>`, it outputs a tuple `<k, f(v)>`
 - `changeKey(f: int -> int)`: for each input tuple `<k, v>`, it outputs a tuple `<f(v), v>`
@@ -19,5 +19,5 @@ Conda setup
 ## How to Run
 Run instruction
 
-## Run in distributed environment
+## Run in distributed environment
 Setup ssh connection
