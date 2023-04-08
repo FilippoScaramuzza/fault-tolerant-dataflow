@@ -11,13 +11,31 @@ The platform includes a **coordinator** and multiple **workers**. The coordinato
 
 The systems implements a fault-tolerance mechanism that limit the amount of work that needs to be be re-executed in the case a worker fails. This is achieved by saving a dump file containing the partial results computed until the failure. The coordinator keeps track of the operations computed by each worker and then tells it the point in the operations set it executed.
 
+![](flow_diagram.png)
+
 The project uses [Open MPI](https://www.open-mpi.org) and [mpi4py](https://mpi4py.readthedocs.io/en/stable/) as middleware for distributed computing.
 
 ## Setup Guide
-Conda setup
+### Conda
+Install conda
+Create a new environment
+```bash
+conda create -n fault-tolerant-dataflow python=3.9
+```
+Activate the environment
+```bash
+conda activate fault-tolerant-dataflow
+```
+Install requirements
+```bash
+pip install -r requirements.txt
+```
 
 ## How to Run
-Run instruction
-
-## Run in distributed environment
-Setup ssh connection
+```bash
+python main.py -c|--Config <config_file> [-h|--Hosts host(,host)*] [-n|--NoFault]
+```
+- `config_file`: path to the JSON file containing the dataflow program
+- `hosts`: list of hosts to use for the computation. If not specified, the computation is run locally. An example of hosts list is `machine1, machine2, machine3`, where those names are saved in the `/etc/hosts` file of the machine running the program. Remember that in order to run the program in a distributed environment, the machines must be connected via ssh and without password.
+Keep in mind that if you need to run the program in a distributed environment, you must have the same version of the code on all the machines and in the same path. This means that the code must be copied on all the machines that will be used for the computation. The machines must be connected via ssh and without password. The `/etc/hosts` file must contain the names of the machines that will be used for the computation.
+Be sure to have the same version of the code on all the machines and in the same path.
