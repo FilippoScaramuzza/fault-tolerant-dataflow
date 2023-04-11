@@ -11,7 +11,7 @@ The platform includes a **coordinator** and multiple **workers**. The coordinato
 
 The systems implements a fault-tolerance mechanism that limit the amount of work that needs to be be re-executed in the case a worker fails. This is achieved by saving a dump file containing the partial results computed until the failure. The coordinator keeps track of the operations computed by each worker and then tells it the point in the operations set it executed.
 
-![](https://imgur.com/a/1AmJtM8.png)
+![](https://imgur.com/a/1AmJtM8.jpg)
 
 The project uses [Open MPI](https://www.open-mpi.org) and [mpi4py](https://mpi4py.readthedocs.io/en/stable/) as middleware for distributed computing.
 
