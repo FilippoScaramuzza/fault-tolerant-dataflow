@@ -1,5 +1,5 @@
 # Fault-Tolerant Dataflow Platform
-Fault-tolerant dataflow platform implementation for the distributed systems course of the Polytechnic of Milan.
+Fault-tolerant dataflow platform implementation for the [distributed systems](https://www4.ceda.polimi.it/manifesti/manifesti/controller/ManifestoPublic.do?EVN_DETTAGLIO_RIGA_MANIFESTO=evento&aa=2022&k_cf=225&k_corso_la=481&k_indir=T2A&codDescr=090950&lang=EN&semestre=1&idGruppo=4474&idRiga=281815) course of the Polytechnic of Milan.
 
 ## Project Description
 The platform is implemented for processing key-value pairs where keys and values are integers. The platform offers three operators, which are executed independently and in parallel for each key `k`:
